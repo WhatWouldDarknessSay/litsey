@@ -81,7 +81,7 @@ class SimpleRect: # just rectangles
         pygame.display.update()
 
 
-class Button:
+class Button(pygame.sprite.Sprite):
     def __init__(self, pos, size, color, type='game', text='', image='', text_color='pink', alpha=255):
         self.type = type
         # position, size
@@ -158,6 +158,27 @@ class Button:
                         elif self.type == 'game':
                             self.game_button_action()
 
+
+class PlayButton(pygame.sprite.Sprite):
+    def __init__(self, text, font_size, color):
+        font = pygame.font.SysFont("Arial", font_size)
+        super(Button, self).__init__()
+        self.image = font.render(text, 0, color)
+        self.rect = self.image.get_rect()
+        self.x, self.y, self.w, self.h = self.image.get_rect()
+        self.bg = pygame.Surface((self.w, self.h))
+        self.bg.fill((255, 255, 255))
+
+    def on_click(self):
+        if self.rect.collidepoint(pygame.mouse.get_pos()):
+            self.bg.fill((0, 244, 100))
+        else:
+            self.bg.fill((255, 255, 255))
+
+    def update(self):
+        self.on_click()
+        screen.blit(self.bg, (0, 0))
+        screen.blit(self.image, (0, 0))
 
 
 
